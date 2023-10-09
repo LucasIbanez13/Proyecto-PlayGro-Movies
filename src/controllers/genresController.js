@@ -1,23 +1,19 @@
-const db  = require('../database/models')
-module.exports = {
-    list : (req,res) => {
-        db.Genre.findAll({
-            order : [
-                ['name','ASC']
-            ]
-        })
-            .then(genres => {
+const db = require('../database/models');
+const sequelize = db.sequelize;
 
-                return res.render('genresList',{
-                    genres
-                })
-                
+const genresController = {
+    'list': (req, res) => {
+        db.Genre.findAll()
+            .then(genres => {
+                res.render('genresList.ejs', {genres})
             })
-            .catch(error => console.log(error))
     },
-    detail : (req,res) => {
+    'detail': (req, res) => {
         db.Genre.findByPk(req.params.id)
-            .then(genre => res.render('genresDetail', {genre}))
-            .catch(error => console.log(error))
+            .then(genre => {
+                res.render('genresDetail.ejs', {genre});
+            });
     }
 }
+
+module.exports = genresController;
