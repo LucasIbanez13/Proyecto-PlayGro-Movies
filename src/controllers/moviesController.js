@@ -41,9 +41,24 @@ const moviesController = {
             .then(movies => {
                 res.render('recommendedMovies.ejs', { movies });
             });
-    }, //Aqui debemos modificar y completar lo necesario para trabajar con el CRUD
+    },
     add: function (req, res) {
-        return res.render('moviesAdd')
+        const genres = db.Genre.findAll({
+            order: ["name"],
+        })
+        const actors = db.Actor.findAll({
+            order: [
+                ['first_name'],
+                ['last_name']
+            ]
+        })
+        Promise.all([genres,actors])
+        .then(([genres,actors]) => {
+            return res.render("moviesAdd",{
+                genres,
+                actors
+            })
+        })
     },
     create: function (req, res) {
         // TODO
@@ -51,14 +66,15 @@ const moviesController = {
 
         if (errors.isEmpty()) {
 
-            const { title, rating, awards, release_date, length } = req.body
+            const { title, rating, awards, release_date, length, genre_id } = req.body
 
             db.Movie.create({
                 title: title.trim(),
                 rating,
                 awards,
                 release_date,
-                length
+                length,
+                genre_id
             })
                 .then(movie => {
                     console.log(movie);
@@ -85,7 +101,7 @@ const moviesController = {
     },
     update: function (req, res) {
         // TODO
-        const { title, rating, awards, release_date, length } = req.body
+        const { title, rating, awards, release_date, length, genre_id} = req.body
 
         db.Movie.update(
             {
@@ -93,7 +109,8 @@ const moviesController = {
                 rating,
                 awards,
                 release_date,
-                length
+                length,
+                genre_id
             },
             {
                 where: {

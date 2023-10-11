@@ -44,7 +44,15 @@
                     value="<%= locals.old && (old.length && old.length) %>"><br><small>
                     <%= locals.errors && (errors.length && errors.length.msg) %>
                 </small></p>
-
+                <label for="genreID">Género </label>
+                <p>
+                    <select name="genre_id" id="" required>
+                        <option value="" disabled selected>- Seleccione el género - </option>
+                        <% allGenres.forEach(genre => { %>
+                        <option value="<%= genre.id %>"><%= genre.name %></option>
+                        <% }); %>
+                    </select>
+                </p>
             <br>
             <p> <button class="botonAgregar" type="submit">Agregar</button>
 

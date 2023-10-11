@@ -6,11 +6,12 @@ module.exports = (sequelize, dataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        actor_id: {
-            type: dataTypes.INTEGER
-        },
         movie_id: {
-            type: dataTypes.INTEGER
+            type: dataTypes.INTEGER.UNSIGNED,
+            allowNull: false
+        },
+        actor_id: {
+            type: dataTypes.INTEGER.UNSIGNED
         }
     };
     let config = {
